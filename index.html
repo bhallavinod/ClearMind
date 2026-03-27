@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenSpace Meditation</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#a8edea">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-card">
+        <div class="visualizer-container">
+            <div class="breath-circle" id="visual"></div>
+        </div>
+        
+        <div class="timer-display" id="display">10:00</div>
+        <div class="instruction" id="guide">Ready?</div>
+        
+        <div class="controls">
+            <button id="masterBtn">START</button>
+        </div>
+
+        <div class="time-options">
+            <button class="time-btn" data-sec="300">5m</button>
+            <button class="time-btn" data-sec="600">10m</button>
+            <button class="time-btn" data-sec="900">15m</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
