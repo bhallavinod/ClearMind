@@ -1,14 +1,4 @@
-const cacheName = 'zen-v1';
-const assets = ['./', './index.html', './style.css', './app.js', './manifest.json'];
-
-self.addEventListener('install', evt => {
-  evt.waitUntil(
-    caches.open(cacheName).then(cache => cache.addAll(assets))
-  );
-});
-
-self.addEventListener('fetch', evt => {
-  evt.respondWith(
-    caches.match(evt.request).then(res => res || fetch(evt.request))
-  );
-});
+const CACHE_NAME = 'zen-v1';
+const ASSETS = ['./', './index.html', './style.css', './app.js', './pashupati.png'];
+self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS))));
+self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
