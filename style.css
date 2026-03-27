@@ -1,89 +1,19 @@
-:root {
-    --bg-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-    --glass: rgba(255, 255, 255, 0.25);
-    --text: #2d3436;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg-gradient);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    color: var(--text);
-}
-
-.app-card {
-    background: var(--glass);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    padding: 2rem;
-    border-radius: 30px;
-    text-align: center;
-    width: 85%;
-    max-width: 400px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.visualizer-container {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.breath-circle {
-    width: 100px;
-    height: 100px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.6;
-    transition: all 4s ease-in-out;
-}
-
-.breath-circle.inhale {
-    transform: scale(1.8);
-    opacity: 0.3;
-}
-
-.timer-display {
-    font-size: 3.5rem;
-    font-weight: 300;
-    margin: 1rem 0;
-}
-
-.controls button {
-    background: white;
-    border: none;
-    padding: 15px 40px;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #444;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.time-options {
-    margin-top: 2rem;
-    display: flex;
-    justify-content: space-around;
-}
-
-.time-btn {
-    background: transparent;
-    border: 1px solid white;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    cursor: pointer;
-}
+:root { --blue: #38bdf8; --bg: #0f172a; }
+body { margin: 0; background: var(--bg); color: #fff; font-family: system-ui; overflow: hidden; }
+.background-texture { position: fixed; inset: 0; background-size: cover; background-position: center; opacity: 0.15; filter: sepia(0.4); z-index: -1; }
+.app-container { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+.portrait-container { width: 200px; height: 200px; transition: 4s ease-in-out; }
+.portrait-container.inhale #ribcage-breath { transform: translate(100, 110) scale(1.18, 1.1); }
+#mantraDisplay { font-size: 2.2rem; letter-spacing: 5px; height: 45px; margin: 15px 0; color: var(--blue); }
+#timerDisplay { font-size: 3.5rem; font-weight: 100; opacity: 0.7; }
+.duration-picker { display: flex; gap: 10px; margin: 15px 0; }
+.chip { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 8px 18px; border-radius: 20px; cursor: pointer; }
+.chip.active { background: var(--blue); border-color: var(--blue); }
+#masterBtn { background: none; border: 1px solid #fff; color: #fff; padding: 15px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; }
+.seat-map { width: 60px; height: 60px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; position: relative; margin: 15px; }
+#postureDot { width: 8px; height: 8px; background: var(--blue); border-radius: 50%; position: absolute; left: 50%; top: 50%; transition: 0.2s; }
+#heatmapGrid { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; margin: 15px 0; }
+.heat-sq { width: 10px; height: 10px; background: #1e293b; border-radius: 1px; cursor: pointer; }
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; }
+.modal-content { background: #1e293b; padding: 25px; border-radius: 20px; width: 85%; max-width: 320px; text-align: left; }
+.help-item { display: flex; gap: 10px; margin-bottom: 15px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; }
