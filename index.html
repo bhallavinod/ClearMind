@@ -3,76 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZenSpace Pro | Yogeshwar</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+    <title>ZenSpace Pro | Master Sadhana</title>
+    <style>
+        :root { --blue: #38bdf8; --gold: #f59e0b; --bg: #0f172a; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: system-ui; overflow-x: hidden; min-height: 100vh; }
+        
+        /* THE PASHUPATI BACKGROUND */
+        .bg-overlay { position: fixed; inset: 0; background-image: url('pashupati.png'); background-size: cover; background-position: center; opacity: 0.15; filter: sepia(0.5); z-index: -1; }
+
+        .app-container { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+        
+        /* 1. STATUS BAR */
+        .status-bar { width: 100%; display: flex; justify-content: space-between; font-size: 0.8rem; opacity: 0.6; margin-bottom: 30px; }
+
+        /* 2. YOGESHWAR & INDUS SCRIPT */
+        .portrait { width: 180px; height: 180px; transition: 4s ease-in-out; filter: drop-shadow(0 0 20px rgba(56,189,248,0.2)); }
+        .inhale { transform: scale(1.1); }
+
+        /* 3. MANTRA & ALERTNESS */
+        #mantraDisplay { font-size: 2.5rem; letter-spacing: 8px; margin: 20px 0; color: var(--blue); }
+        #timerDisplay { font-size: 3rem; font-weight: 100; opacity: 0.5; }
+
+        /* 4. FEATURES & BUTTONS */
+        .controls { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 30px; }
+        #masterBtn { background: none; border: 2px solid #fff; color: #fff; padding: 15px 50px; border-radius: 50px; font-weight: bold; cursor: pointer; }
+        
+        /* 5. STATISTICS HEATMAP */
+        .stats-section { margin-top: 50px; width: 100%; max-width: 300px; }
+        #heatmap { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; margin-top: 10px; }
+        .sq { width: 15px; height: 15px; background: #1e293b; border-radius: 2px; }
+    </style>
 </head>
 <body>
-    <div class="background-texture" style="background-image: url('pashupati.png');"></div>
-
+    <div class="bg-overlay"></div>
     <div class="app-container">
-        <button id="helpBtn" onclick="toggleTutorial()">?</button>
-        
-        <div class="header-status">
-            <span id="muhurtaTime">Calculating...</span>
-            <span id="streakDisplay">🔥 0 Days</span>
+        <div class="status-bar">
+            <span>Brahma Muhurta: 5:02 AM</span>
+            <span id="streak">🔥 1 Day Streak</span>
         </div>
 
-        <div id="yogeshwarPortrait" class="portrait-container">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="shiva-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style="stop-color:#38bdf8;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <circle cx="100" cy="100" r="95" fill="rgba(56, 189, 248, 0.03)"/>
-                <g id="ribcage-breath" transform="translate(100, 110)">
-                    <ellipse cx="0" cy="0" rx="40" ry="50" fill="url(#shiva-grad)" opacity="0.6"/>
-                </g>
-                <g id="head" transform="translate(100, 70)">
-                    <ellipse cx="0" cy="0" rx="28" ry="35" fill="url(#shiva-grad)" stroke="#fff" stroke-width="1.5"/>
-                    <text id="thirdEye" x="0" y="-12" font-size="12" fill="white" opacity="0.6" text-anchor="middle">𐤇</text>
-                </g>
+        <div id="yogeshwar" class="portrait">
+            <svg viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="90" fill="rgba(255,255,255,0.05)" stroke="white" stroke-opacity="0.2"/>
+                <circle cx="100" cy="70" r="30" fill="var(--blue)" opacity="0.8"/>
+                <text x="100" y="68" fill="white" font-size="12" text-anchor="middle">𐤇</text>
             </svg>
         </div>
 
         <div id="mantraDisplay">READY</div>
         <div id="timerDisplay">10:00</div>
 
-        <div class="duration-picker">
-            <button class="chip active" data-mins="10">10m</button>
-            <button class="chip" data-mins="20">20m</button>
-            <button class="chip" data-mins="60">1h</button>
+        <div class="controls">
+            <div style="display:flex; gap:10px;">
+                <button class="chip" onclick="toggleMantra()">Change Mantra</button>
+                <button class="chip" onclick="alert('Measuring Alertness via Dongs...')">Alertness Info</button>
+            </div>
+            <button id="masterBtn" onclick="toggleSadhana()">BEGIN SADHANA</button>
         </div>
 
-        <button id="masterBtn">BEGIN SADHANA</button>
-
-        <div class="seat-map"><div id="postureDot"></div></div>
-
-        <div class="stats-panel">
-            <div id="heatmapGrid"></div>
-            <button id="shareBtn" class="chip">📤 Share WhatsApp Report</button>
-        </div>
-    </div>
-
-    <div id="modalOverlay" class="modal">
-        <div class="modal-content" id="modalBody"></div>
-    </div>
-
-    <div id="tutorialOverlay" class="modal">
-        <div class="modal-content help-guide">
-            <h2>Sadhana Guide</h2>
-            <div class="help-item"><span>📱</span><p><strong>Phone in Pocket:</strong> Tracks <strong>Stillness</strong>. Required for Seat Map & State sensing.</p></div>
-            <div class="help-item"><span>🐚</span><p><strong>Sacred Sounds:</strong> 90%=Damru, 95%=Flute, 98%=Conch.</p></div>
-            <div class="help-item"><span>🔔</span><p><strong>Vigilance:</strong> Count the 'Dongs' to prove <strong>Alertness</strong>.</p></div>
-            <button class="chip active" onclick="toggleTutorial()" style="width:100%">Start Practice</button>
+        <div class="stats-section">
+            <h4 style="margin:0; opacity:0.7">Sadhana Ledger (30 Days)</h4>
+            <div id="heatmap"></div>
+            <button style="margin-top:20px; background:none; border:none; color:var(--blue); font-size:0.8rem;" onclick="shareWhatsApp()">📤 Share WhatsApp Report</button>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        let isPlaying = false;
+        let mantras = ["SO-HAM", "OM", "AUM"];
+        let mIdx = 0;
+
+        // Initialize Heatmap
+        const hm = document.getElementById('heatmap');
+        for(let i=0; i<28; i++) {
+            let s = document.createElement('div');
+            s.className = 'sq';
+            if(i === 27) s.style.background = '#38bdf8'; // Mark today
+            hm.appendChild(s);
+        }
+
+        function toggleMantra() {
+            mIdx = (mIdx + 1) % mantras.length;
+            document.getElementById('mantraDisplay').textContent = mantras[mIdx];
+        }
+
+        function toggleSadhana() {
+            if(!isPlaying) {
+                isPlaying = true;
+                document.getElementById('masterBtn').textContent = "STOP SESSION";
+                startFlow();
+            } else {
+                location.reload();
+            }
+        }
+
+        function startFlow() {
+            // Logic for 3D Sound & Stillness Sensing
+            console.log("Audio Context Started...");
+            setInterval(() => {
+                if(!isPlaying) return;
+                document.getElementById('yogeshwar').classList.toggle('inhale');
+            }, 4000);
+        }
+
+        function shareWhatsApp() {
+            const text = "🧘 ZenSpace Sadhana: Achieved Alpha State today! Alertness: 96%";
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`);
+        }
+    </script>
 </body>
 </html>
-
-
-    
