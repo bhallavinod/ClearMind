@@ -3,83 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZenSpace Pro | Master Sadhana</title>
+    <title>ZenSpace Pro | Patiala Master</title>
     <style>
         :root { --blue: #38bdf8; --gold: #f59e0b; --bg: #0f172a; }
-        body { margin: 0; background: var(--bg); color: #fff; font-family: system-ui; overflow-x: hidden; min-height: 100vh; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Segoe UI', system-ui, sans-serif; overflow-x: hidden; min-height: 100vh; }
         
-        /* THE PASHUPATI BACKGROUND */
-        .bg-overlay { position: fixed; inset: 0; background-image: url('pashupati.png'); background-size: cover; background-position: center; opacity: 0.15; filter: sepia(0.5); z-index: -1; }
+        /* PASHUPATI SEAL BACKGROUND */
+        .bg-overlay { position: fixed; inset: 0; background-image: url('pashupati.png'); background-size: cover; background-position: center; opacity: 0.12; filter: sepia(0.5) contrast(0.8); z-index: -1; }
 
-        .app-container { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+        .app-container { display: flex; flex-direction: column; align-items: center; padding: 30px 20px; box-sizing: border-box; min-height: 100vh; }
         
-        /* 1. STATUS BAR */
-        .status-bar { width: 100%; display: flex; justify-content: space-between; font-size: 0.8rem; opacity: 0.6; margin-bottom: 30px; }
+        /* STATUS & STREAK */
+        .header { width: 100%; display: flex; justify-content: space-between; font-size: 0.75rem; opacity: 0.6; margin-bottom: 20px; letter-spacing: 1px; }
 
-        /* 2. YOGESHWAR & INDUS SCRIPT */
-        .portrait { width: 180px; height: 180px; transition: 4s ease-in-out; filter: drop-shadow(0 0 20px rgba(56,189,248,0.2)); }
-        .inhale { transform: scale(1.1); }
+        /* YOGESHWAR PORTRAIT */
+        .portrait { width: 200px; height: 200px; transition: transform 4s ease-in-out; filter: drop-shadow(0 0 25px rgba(56,189,248,0.2)); margin: 10px 0; }
+        .inhale { transform: scale(1.12); }
 
-        /* 3. MANTRA & ALERTNESS */
-        #mantraDisplay { font-size: 2.5rem; letter-spacing: 8px; margin: 20px 0; color: var(--blue); }
-        #timerDisplay { font-size: 3rem; font-weight: 100; opacity: 0.5; }
+        /* MANTRA & TIMER */
+        #mantraDisplay { font-size: 2.4rem; letter-spacing: 10px; margin: 15px 0; color: var(--blue); text-shadow: 0 0 15px rgba(56,189,248,0.4); font-weight: 300; }
+        #timerDisplay { font-size: 3.5rem; font-weight: 100; opacity: 0.4; margin-bottom: 20px; }
 
-        /* 4. FEATURES & BUTTONS */
-        .controls { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 30px; }
-        #masterBtn { background: none; border: 2px solid #fff; color: #fff; padding: 15px 50px; border-radius: 50px; font-weight: bold; cursor: pointer; }
+        /* CONTROLS */
+        .chip-group { display: flex; gap: 8px; margin-bottom: 25px; }
+        .chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; transition: 0.3s; }
+        .chip.active { background: var(--blue); border-color: var(--blue); box-shadow: 0 0 10px var(--blue); }
+
+        #masterBtn { background: none; border: 1.5px solid #fff; color: #fff; padding: 16px 50px; border-radius: 50px; font-weight: bold; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
+        #masterBtn:hover { background: #fff; color: var(--bg); }
+
+        /* LEDGER / HEATMAP */
+        .ledger-box { width: 100%; max-width: 320px; margin-top: 40px; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .heatmap { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; margin: 12px 0; }
+        .sq { width: 100%; aspect-ratio: 1; background: #1e293b; border-radius: 2px; transition: 0.3s; }
+        .sq.active { background: var(--blue); box-shadow: 0 0 5px var(--blue); }
+
+        /* MODALS */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: #1e293b; padding: 30px; border-radius: 25px; width: 85%; max-width: 340px; text-align: center; }
         
-        /* 5. STATISTICS HEATMAP */
-        .stats-section { margin-top: 50px; width: 100%; max-width: 300px; }
-        #heatmap { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; margin-top: 10px; }
-        .sq { width: 15px; height: 15px; background: #1e293b; border-radius: 2px; }
+        /* POSTURE SEAT MAP */
+        .seat-map { width: 60px; height: 60px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; position: relative; margin: 15px; background: rgba(255,255,255,0.02); }
+        #postureDot { width: 8px; height: 8px; background: var(--blue); border-radius: 50%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); transition: 0.2s; }
     </style>
 </head>
 <body>
     <div class="bg-overlay"></div>
     <div class="app-container">
-        <div class="status-bar">
-            <span>Brahma Muhurta: 5:02 AM</span>
-            <span id="streak">🔥 1 Day Streak</span>
+        <div class="header">
+            <span id="muhurtaTime">5:12 AM</span>
+            <span>🔥 Streak: 12 Days</span>
         </div>
 
         <div id="yogeshwar" class="portrait">
-            <svg viewBox="0 0 200 200">
-                <circle cx="100" cy="100" r="90" fill="rgba(255,255,255,0.05)" stroke="white" stroke-opacity="0.2"/>
-                <circle cx="100" cy="70" r="30" fill="var(--blue)" opacity="0.8"/>
-                <text x="100" y="68" fill="white" font-size="12" text-anchor="middle">𐤇</text>
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="95" fill="none" stroke="white" stroke-opacity="0.1" stroke-width="0.5"/>
+                <ellipse id="ribs" cx="100" cy="120" rx="35" ry="45" fill="var(--blue)" fill-opacity="0.3"/>
+                <circle cx="100" cy="70" r="28" fill="var(--blue)" fill-opacity="0.6" stroke="white" stroke-width="1"/>
+                <text x="100" y="68" fill="white" font-size="10" text-anchor="middle" opacity="0.8">𐤇</text>
             </svg>
         </div>
 
-        <div id="mantraDisplay">READY</div>
+        <div id="mantraDisplay">SO-HAM</div>
         <div id="timerDisplay">10:00</div>
 
-        <div class="controls">
-            <div style="display:flex; gap:10px;">
-                <button class="chip" onclick="toggleMantra()">Change Mantra</button>
-                <button class="chip" onclick="alert('Measuring Alertness via Dongs...')">Alertness Info</button>
-            </div>
-            <button id="masterBtn" onclick="toggleSadhana()">BEGIN SADHANA</button>
+        <div class="chip-group">
+            <button class="chip active" onclick="setTimer(10, this)">10m</button>
+            <button class="chip" onclick="setTimer(20, this)">20m</button>
+            <button class="chip" onclick="toggleMantra()">Mantra</button>
         </div>
 
-        <div class="stats-section">
-            <h4 style="margin:0; opacity:0.7">Sadhana Ledger (30 Days)</h4>
-            <div id="heatmap"></div>
-            <button style="margin-top:20px; background:none; border:none; color:var(--blue); font-size:0.8rem;" onclick="shareWhatsApp()">📤 Share WhatsApp Report</button>
+        <button id="masterBtn" onclick="handleAction()">BEGIN SADHANA</button>
+
+        <div class="seat-map"><div id="postureDot"></div></div>
+
+        <div class="ledger-box">
+            <span style="font-size: 0.7rem; opacity: 0.5; text-transform: uppercase;">Sadhana Ledger</span>
+            <div id="heatmap" class="heatmap"></div>
+            <button class="chip" style="width: 100%; border:none; background: rgba(56,189,248,0.1); color: var(--blue);" onclick="shareReport()">📤 WhatsApp Report</button>
+        </div>
+    </div>
+
+    <div id="moodModal" class="modal">
+        <div class="modal-content">
+            <h3>Energy Check?</h3>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <button class="chip" onclick="startSession('Calm')">Calm</button>
+                <button class="chip" onclick="startSession('Anxious')">Anxious</button>
+                <button class="chip" onclick="startSession('Focused')">Focused</button>
+                <button class="chip" onclick="startSession('Tired')">Tired</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="alertModal" class="modal">
+        <div class="modal-content">
+            <h3>Vigilance Check</h3>
+            <p>How many "Dongs" did you hear?</p>
+            <input type="number" id="dongGuess" style="width: 60px; padding: 10px; border-radius: 8px; border: none; font-size: 1.2rem; text-align: center;">
+            <br><br>
+            <button class="chip active" onclick="calculateResults()">Verify Sadhana</button>
         </div>
     </div>
 
     <script>
-        let isPlaying = false;
-        let mantras = ["SO-HAM", "OM", "AUM"];
-        let mIdx = 0;
+        let isPlaying = false, audioCtx, timeLeft = 600, actualDongs = 0, scores = [], mIdx = 0;
+        const mantras = ["SO-HAM", "OM", "AUM", "SHIVOHAM"];
 
-        // Initialize Heatmap
+        // Init Heatmap
         const hm = document.getElementById('heatmap');
-        for(let i=0; i<28; i++) {
-            let s = document.createElement('div');
-            s.className = 'sq';
-            if(i === 27) s.style.background = '#38bdf8'; // Mark today
-            hm.appendChild(s);
+        for(let i=0; i<28; i++){
+            let d = document.createElement('div');
+            d.className = 'sq' + (i > 20 ? ' active' : '');
+            hm.appendChild(d);
+        }
+
+        function setTimer(m, b) {
+            if(isPlaying) return;
+            timeLeft = m * 60;
+            document.getElementById('timerDisplay').textContent = `${m}:00`;
+            document.querySelectorAll('.chip-group .chip').forEach(c => c.classList.remove('active'));
+            b.classList.add('active');
         }
 
         function toggleMantra() {
@@ -87,28 +131,93 @@
             document.getElementById('mantraDisplay').textContent = mantras[mIdx];
         }
 
-        function toggleSadhana() {
-            if(!isPlaying) {
-                isPlaying = true;
-                document.getElementById('masterBtn').textContent = "STOP SESSION";
-                startFlow();
-            } else {
-                location.reload();
-            }
+        function handleAction() {
+            if(!isPlaying) document.getElementById('moodModal').style.display = 'flex';
+            else document.getElementById('alertModal').style.display = 'flex';
         }
 
-        function startFlow() {
-            // Logic for 3D Sound & Stillness Sensing
-            console.log("Audio Context Started...");
-            setInterval(() => {
+        function startSession(mood) {
+            isPlaying = true;
+            document.getElementById('moodModal').style.display = 'none';
+            document.getElementById('masterBtn').textContent = "STOP SESSION";
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Scheduling Alertness Dongs
+            actualDongs = Math.floor(Math.random() * 4) + 3;
+            for(let i=0; i<actualDongs; i++) {
+                setTimeout(() => { if(isPlaying) playSound(440, 'sine', 0.4, 1); }, Math.random() * (timeLeft - 20) * 1000 + 10000);
+            }
+
+            initSensors();
+            breath();
+            timerTick();
+        }
+
+        function breath() {
+            if(!isPlaying) return;
+            const p = document.getElementById('yogeshwar');
+            p.classList.add('inhale');
+            
+            // Stillness Sound (Drum)
+            if(getStillness() > 0.9) playSound(60, 'sine', 0.2, 0.5);
+
+            setTimeout(() => {
                 if(!isPlaying) return;
-                document.getElementById('yogeshwar').classList.toggle('inhale');
+                p.classList.remove('inhale');
+                let s = getStillness();
+                if(s > 0.98) playSound(110, 'sawtooth', 0.1, 3); // Conch
+                else if(s > 0.95) playSound(523, 'triangle', 0.1, 1); // Flute
+                setTimeout(breath, 4000);
             }, 4000);
         }
 
-        function shareWhatsApp() {
-            const text = "🧘 ZenSpace Sadhana: Achieved Alpha State today! Alertness: 96%";
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`);
+        function playSound(f, t, v, d) {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.type = t; o.frequency.setValueAtTime(f, audioCtx.currentTime);
+            g.gain.setValueAtTime(0, audioCtx.currentTime);
+            g.gain.linearRampToValueAtTime(v, audioCtx.currentTime + 0.1);
+            g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + d);
+            o.connect(g); g.connect(audioCtx.destination);
+            o.start(); o.stop(audioCtx.currentTime + d);
+        }
+
+        function initSensors() {
+            window.addEventListener('devicemotion', (e) => {
+                if(!isPlaying) return;
+                const x = e.accelerationIncludingGravity.x || 0;
+                const y = e.accelerationIncludingGravity.y || 0;
+                document.getElementById('postureDot').style.left = `${50 + (x * 4)}%`;
+                document.getElementById('postureDot').style.top = `${50 + (y * 4)}%`;
+                scores.push(Math.max(0, 1 - (Math.sqrt(x*x+y*y)/20)));
+            });
+        }
+
+        function getStillness() { return scores.length ? scores.reduce((a,b)=>a+b)/scores.length : 0; }
+
+        function calculateResults() {
+            const guess = parseInt(document.getElementById('dongGuess').value);
+            const alertScore = (1 - Math.abs(actualDongs - guess) / actualDongs) * 100;
+            const stillness = (getStillness() * 100).toFixed(0);
+            alert(`Sadhana Verified!\nAlertness: ${alertScore.toFixed(0)}%\nStillness: ${stillness}%`);
+            location.reload();
+        }
+
+        function timerTick() {
+            if(!isPlaying) return;
+            setInterval(() => {
+                if(timeLeft > 0) {
+                    timeLeft--;
+                    let m = Math.floor(timeLeft / 60);
+                    let s = timeLeft % 60;
+                    document.getElementById('timerDisplay').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+                }
+            }, 1000);
+        }
+
+        function shareReport() {
+            const msg = "🧘 ZenSpace Report: Completed my Patiala Sadhana with 98% stillness! 🔥";
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`);
         }
     </script>
 </body>
